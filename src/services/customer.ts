@@ -1,45 +1,45 @@
-import { Employee } from "../entities/employee";
+import { Customer } from "../entities/customer";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/tokens";
 import { BadRequestError } from "../error/errorHandler";
 
-class EmployeeService {
+class CustomerService {
 	async register({
 		firstName,
 		lastName,
-		department,
-		username,
+		age,
 		address,
 		password,
-		phone
+		phone,
+		email
 	}: {
 		firstName: string;
 		lastName: string;
-		department: string;
-		username: string;
+		age: number;
 		address: string;
 		password: string;
 		phone: string;
+		email: string;
 	}): Promise<void> {
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
-		const employee = new Employee();
+		const customer = new Customer();
 
-		employee.firstName = firstName;
-		employee.lastName = lastName;
-		employee.department = department;
-		employee.username = username;
-		employee.address = address;
-		employee.password = hashedPassword;
-		employee.phone = phone;
+		customer.firstName = firstName;
+		customer.lastName = lastName;
+		customer.age = age;
+		customer.email = email;
+		customer.address = address;
+		customer.password = hashedPassword;
+		customer.phone = phone;
 
-		await employee.save();
+		await customer.save();
 	}
 
-	async login(username: string, password: string) {
+	async login(email: string, password: string) {
 		try {
-			const userIsExist = await Employee.findOneBy({
-				username: username
+			const userIsExist = await Customer.findOneBy({
+				email
 			});
 
 			if (!userIsExist) {
@@ -69,4 +69,4 @@ class EmployeeService {
 	}
 }
 
-export const employeeService = new EmployeeService();
+export const customerService = new CustomerService();

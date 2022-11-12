@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
-
+import { Config } from "../config/config";
 export const generateToken = (data: object) => {
 	const token = jwt.sign(
 		{
 			...data
 		},
-		process.env.SECRET_KEY!,
+		Config.readFromEnv().SECRET_KEY,
 		{ expiresIn: "12h" }
 	);
 	return token;
