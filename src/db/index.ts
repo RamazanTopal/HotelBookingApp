@@ -7,7 +7,8 @@ const dbConnect = async (app: Express) => {
 	const AppDataSource = new DataSource({
 		type: "postgres",
 		url: Config.readFromEnv().DB_URL,
-		entities: [path.join(__dirname, "../entities/*.{js,ts}")]
+		entities: [path.join(__dirname, "../entities/*.{js,ts}")],
+		synchronize: true
 	});
 	try {
 		await AppDataSource.initialize();

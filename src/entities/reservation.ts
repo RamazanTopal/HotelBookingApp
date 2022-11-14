@@ -3,8 +3,7 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	BaseEntity,
-	JoinColumn,
-	OneToMany
+	ManyToOne
 } from "typeorm";
 import { Customer } from "./customer";
 import { Room } from "./room";
@@ -14,13 +13,11 @@ export class Reservation extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number | undefined;
 
-	@OneToMany(() => Customer, (customer) => customer.id)
-	@JoinColumn()
-	customerId: Customer[] | undefined;
+	@ManyToOne(() => Customer, (customer) => customer.reservation)
+	customer: Customer | undefined;
 
-	@OneToMany(() => Room, (room) => room.id)
-	@JoinColumn()
-	roomId: Room[] | undefined;
+	@ManyToOne(() => Room, (room) => room.reservation)
+	room: Room | undefined;
 
 	@Column("date", { nullable: true })
 	reservationDate: string | undefined;

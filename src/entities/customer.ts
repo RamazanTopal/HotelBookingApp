@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	BaseEntity,
+	OneToMany
+} from "typeorm";
+import { Reservation } from "./reservation";
 
 @Entity()
 export class Customer extends BaseEntity {
@@ -28,4 +35,7 @@ export class Customer extends BaseEntity {
 
 	@Column("text", { nullable: false, unique: true })
 	email: string | undefined;
+
+	@OneToMany(() => Reservation, (reservation) => reservation.customer)
+	reservation: Reservation[] | undefined;
 }

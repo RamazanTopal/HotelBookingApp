@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	BaseEntity,
+	OneToMany
+} from "typeorm";
+import { Reservation } from "./reservation";
 
 @Entity()
 export class Room extends BaseEntity {
@@ -16,4 +23,7 @@ export class Room extends BaseEntity {
 
 	@Column("int", { nullable: true })
 	price: number | undefined;
+
+	@OneToMany(() => Reservation, (reservation) => reservation.room)
+	reservation: Reservation[] | undefined;
 }
