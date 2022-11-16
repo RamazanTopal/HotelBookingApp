@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 
 import { Customer } from "./customer";
+import { Transaction } from "./transaction";
 
 @Entity()
 export class Payment extends BaseEntity {
@@ -20,4 +21,7 @@ export class Payment extends BaseEntity {
 
 	@Column("date", { nullable: true })
 	date: string | undefined;
+
+	@OneToMany(() => Transaction, (transaction) => transaction.payment)
+	transaction: Transaction[] | undefined;
 }

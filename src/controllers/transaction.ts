@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from "express";
-import { roomService } from "../services/room";
+import { transactionService } from "../services/transaction";
 
 export const create = async (
 	req: Request,
@@ -7,7 +7,7 @@ export const create = async (
 	next: NextFunction
 ) => {
 	try {
-		await roomService.create(req.body);
+		await transactionService.create(req.body);
 
 		res.status(200).json({ success: true });
 	} catch (error) {
@@ -21,7 +21,7 @@ export const update = async (
 	next: NextFunction
 ) => {
 	try {
-		await roomService.update(req.body);
+		await transactionService.update(req.body);
 
 		res.status(200).json({ success: true });
 	} catch (error) {
@@ -36,7 +36,7 @@ export const remove = async (
 ) => {
 	try {
 		const { id } = req.body;
-		await roomService.remove(id);
+		await transactionService.remove(id!);
 
 		res.status(200).json({ success: true });
 	} catch (error) {
@@ -50,9 +50,9 @@ export const getList = async (
 	next: NextFunction
 ) => {
 	try {
-		const rooms = await roomService.getList();
+		const transactions = await transactionService.getList();
 
-		res.status(200).json({ success: true, rooms });
+		res.status(200).json({ success: true, transactions });
 	} catch (error) {
 		next(error);
 	}

@@ -4,7 +4,7 @@ import {
 	Column,
 	BaseEntity,
 	JoinColumn,
-	OneToMany
+	ManyToOne
 } from "typeorm";
 
 import { Customer } from "./customer";
@@ -17,21 +17,21 @@ export class Transaction extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number | undefined;
 
-	@OneToMany(() => Customer, (customer) => customer.id)
+	@ManyToOne(() => Customer, (customer) => customer.transaction)
 	@JoinColumn()
-	customerId: Customer[] | undefined;
+	customer: Customer | undefined;
 
-	@OneToMany(() => Payment, (payment) => payment.id)
+	@ManyToOne(() => Payment, (payment) => payment.transaction)
 	@JoinColumn()
-	paymentId: Payment[] | undefined;
+	payment: Payment | undefined;
 
-	@OneToMany(() => Employee, (employee) => employee.id)
+	@ManyToOne(() => Employee, (employee) => employee.transaction)
 	@JoinColumn()
-	employeeId: Employee[] | undefined;
+	employee: Employee | undefined;
 
-	@OneToMany(() => Reservation, (reservation) => reservation.id)
+	@ManyToOne(() => Reservation, (reservation) => reservation.transaction)
 	@JoinColumn()
-	reservationId: Reservation[] | undefined;
+	reservation: Reservation | undefined;
 
 	@Column("text", { nullable: true })
 	name: string | undefined;

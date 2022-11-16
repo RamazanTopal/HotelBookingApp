@@ -22,20 +22,19 @@ class RoomService {
 		await room.save();
 	}
 
-	async update(
-		id: string,
-		{
-			name,
-			className,
-			description,
-			price
-		}: {
-			name: string;
-			className: string;
-			description: string;
-			price: number;
-		}
-	) {
+	async update({
+		id,
+		name,
+		className,
+		description,
+		price
+	}: {
+		id: number;
+		name: string;
+		className: string;
+		description: string;
+		price: number;
+	}) {
 		await Room.update(id, {
 			name,
 			className,
@@ -44,8 +43,13 @@ class RoomService {
 		});
 	}
 
-	async remove(id: string) {
+	async remove(id: number) {
 		await Room.delete(id);
+	}
+
+	async getList() {
+		const rooms = await Room.find();
+		return rooms;
 	}
 }
 

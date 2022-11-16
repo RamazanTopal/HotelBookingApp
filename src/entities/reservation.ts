@@ -3,10 +3,12 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	BaseEntity,
-	ManyToOne
+	ManyToOne,
+	OneToMany
 } from "typeorm";
 import { Customer } from "./customer";
 import { Room } from "./room";
+import { Transaction } from "./transaction";
 
 @Entity()
 export class Reservation extends BaseEntity {
@@ -30,4 +32,7 @@ export class Reservation extends BaseEntity {
 
 	@Column("int", { nullable: true })
 	dateRange: number | undefined;
+
+	@OneToMany(() => Transaction, (transaction) => transaction.employee)
+	transaction: Transaction[] | undefined;
 }

@@ -6,6 +6,7 @@ import {
 	OneToMany
 } from "typeorm";
 import { Reservation } from "./reservation";
+import { Transaction } from "./transaction";
 
 @Entity()
 export class Customer extends BaseEntity {
@@ -38,4 +39,7 @@ export class Customer extends BaseEntity {
 
 	@OneToMany(() => Reservation, (reservation) => reservation.customer)
 	reservation: Reservation[] | undefined;
+
+	@OneToMany(() => Transaction, (transaction) => transaction.customer)
+	transaction: Transaction[] | undefined;
 }

@@ -31,24 +31,28 @@ class ReservationService {
 		await reservation.save();
 	}
 
-	async update(
-		id: string,
-		{
-			customer,
-			room,
-			reservationDate,
-			dateIn,
-			dateOut,
-			dateRange
-		}: {
-			customer: Customer;
-			room: Room;
-			reservationDate: string;
-			dateIn: string;
-			dateOut: string;
-			dateRange: number;
-		}
-	) {
+	async update({
+		id,
+		customerId,
+		roomId,
+		reservationDate,
+		dateIn,
+		dateOut,
+		dateRange
+	}: {
+		id: number;
+		customerId: number;
+		roomId: number;
+		reservationDate: string;
+		dateIn: string;
+		dateOut: string;
+		dateRange: number;
+	}) {
+		const room = (await Room.findOneBy({ id: roomId })) as Room;
+		const customer = (await Customer.findOneBy({
+			id: customerId
+		})) as Customer;
+
 		await Reservation.update(id, {
 			customer,
 			room,
@@ -61,6 +65,16 @@ class ReservationService {
 
 	async remove(id: string) {
 		await Reservation.delete(id);
+	}
+
+	async getList() {
+		const reservations = await Reservation.find({
+			relations: {
+				customer: true,
+				room: true
+			}
+		});
+		return reservations;
 	}
 }
 
