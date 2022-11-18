@@ -1,5 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { customerService } from "../services/customer";
+import { registerValidator } from "../validators/customer.validator";
+import { validationError } from "../error/errorHandler";
 
 export const register = async (
 	req: Request,
@@ -7,6 +9,14 @@ export const register = async (
 	next: NextFunction
 ) => {
 	try {
+		const matchValidation = registerValidator.validate(req.body);
+
+		if (matchValidation.error) {
+			throw new validationError(
+				`${matchValidation.error.details[0]?.message}`
+			);
+		}
+
 		await customerService.register(req.body);
 
 		res.status(200).json({ success: true });
@@ -22,6 +32,13 @@ export const login = async (
 ) => {
 	try {
 		const { email, password } = req.body;
+		const matchValidation = registerValidator.validate({ email, password });
+
+		if (matchValidation.error) {
+			throw new validationError(
+				`${matchValidation.error.details[0]?.message}`
+			);
+		}
 
 		const token = await customerService.login(email, password);
 

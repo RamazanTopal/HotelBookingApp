@@ -1,5 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { roomService } from "../services/room";
+import { createValidator, updateValidator } from "../validators/room.validator";
+import { validationError } from "../error/errorHandler";
 
 export const create = async (
 	req: Request,
@@ -7,6 +9,14 @@ export const create = async (
 	next: NextFunction
 ) => {
 	try {
+		const matchValidation = createValidator.validate(req.body);
+
+		if (matchValidation.error) {
+			throw new validationError(
+				`${matchValidation.error.details[0]?.message}`
+			);
+		}
+
 		await roomService.create(req.body);
 
 		res.status(200).json({ success: true });
@@ -21,6 +31,14 @@ export const update = async (
 	next: NextFunction
 ) => {
 	try {
+		const matchValidation = updateValidator.validate(req.body);
+
+		if (matchValidation.error) {
+			throw new validationError(
+				`${matchValidation.error.details[0]?.message}`
+			);
+		}
+
 		await roomService.update(req.body);
 
 		res.status(200).json({ success: true });

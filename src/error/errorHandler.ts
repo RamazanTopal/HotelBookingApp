@@ -55,3 +55,12 @@ export class ServerError extends CustomError {
 		super(message);
 	}
 }
+
+export class validationError extends CustomError {
+	statusCode = statusCode.UNPROCESSABLE_ENTITY;
+	status = "error";
+
+	constructor(message: string) {
+		super(message);
+	}
+}

@@ -3,6 +3,7 @@ import { Customer } from "../entities/customer";
 import { Employee } from "../entities/employee";
 import { Payment } from "../entities/payment";
 import { Transaction } from "../entities/transaction";
+import { BadRequestError } from "../error/errorHandler";
 
 class TransactionService {
 	async create({
@@ -24,6 +25,24 @@ class TransactionService {
 		const payment = await Payment.findOneBy({ id: paymentId });
 		const employee = await Employee.findOneBy({ id: employeeId });
 		const reservation = await Reservation.findOneBy({ id: reservationId });
+
+		if (!customer) {
+			throw new BadRequestError(`Customer ${customerId} is not exist`);
+		}
+
+		if (!payment) {
+			throw new BadRequestError(`Payment ${paymentId} is not exist`);
+		}
+
+		if (!employee) {
+			throw new BadRequestError(`Employee ${employeeId} is not exist`);
+		}
+
+		if (!reservation) {
+			throw new BadRequestError(
+				`Reservation ${reservationId} is not exist`
+			);
+		}
 
 		const transaction = new Transaction();
 		transaction.payment = payment as Payment;
@@ -62,6 +81,24 @@ class TransactionService {
 		const reservation = (await Reservation.findOneBy({
 			id: reservationId
 		})) as Reservation;
+
+		if (!customer) {
+			throw new BadRequestError(`Customer ${customerId} is not exist`);
+		}
+
+		if (!payment) {
+			throw new BadRequestError(`Payment ${paymentId} is not exist`);
+		}
+
+		if (!employee) {
+			throw new BadRequestError(`Employee ${employeeId} is not exist`);
+		}
+
+		if (!reservation) {
+			throw new BadRequestError(
+				`Reservation ${reservationId} is not exist`
+			);
+		}
 
 		await Transaction.update(id, {
 			name,
