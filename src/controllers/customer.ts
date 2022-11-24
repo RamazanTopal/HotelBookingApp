@@ -1,6 +1,9 @@
 import { Response, Request, NextFunction } from "express";
 import { customerService } from "../services/customer";
-import { registerValidator } from "../validators/customer.validator";
+import {
+	registerValidator,
+	loginValidator
+} from "../validators/customer.validator";
 import { validationError } from "../error/errorHandler";
 
 export const register = async (
@@ -32,7 +35,7 @@ export const login = async (
 ) => {
 	try {
 		const { email, password } = req.body;
-		const matchValidation = registerValidator.validate({ email, password });
+		const matchValidation = loginValidator.validate({ email, password });
 
 		if (matchValidation.error) {
 			throw new validationError(

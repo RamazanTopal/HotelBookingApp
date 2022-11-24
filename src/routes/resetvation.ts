@@ -1,11 +1,11 @@
 import express from "express";
 import { create, update, remove, getList } from "../controllers/reservation";
-
+import { verifyAuth } from "../middlewares/verifyAuth";
 const router = express.Router();
 
-router.route("/create").post(create);
-router.route("/update").post(update);
-router.route("/delete").delete(remove);
-router.route("/list").get(getList);
+router.route("/create").post(verifyAuth, create);
+router.route("/update").post(verifyAuth, update);
+router.route("/delete").delete(verifyAuth, remove);
+router.route("/list").get(verifyAuth, getList);
 
 export default router;
